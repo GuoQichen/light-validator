@@ -29,6 +29,7 @@ and form validator must conform
 
 - Form validation is orderly, from top to bottom
 - Custom error message
+- Indicate each error if needed
 
 ## usage
 ```js
@@ -52,6 +53,11 @@ const validate = new Validator([{
         errorMessage: `phone should be 11 digits number`
     }]
 }])
+
+/**
+ * if you want to indicate each error, you can specify second parameter
+ * new Validator(Object|Array schema, Boolean indicateEachError)
+ */
 ```
 
 then 

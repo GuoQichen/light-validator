@@ -4,8 +4,9 @@
 
 
 class Validator {
-	constructor(schema) {
+	constructor(schema, indicateEachError = false) {
 		this.schema = this._isValidSchema(schema)
+		this.indicateEachError = indicateEachError
 		return this.validate.bind(this)
 	}
 
@@ -60,22 +61,25 @@ class Validator {
 		} else {
 			_handleErrorMessage = handleErrorMessage
 		}
-		this.schema.forEach(({ field = Symbol('field'), rule }) => {
+
+		for (let i = 0; i < this.schema.length && (this.indicateEachError || result); i++) {
+			const { field = Symbol('field'), rule } = this.schema[i]
 			const fieldValue = data[field]
 			if (!data.hasOwnProperty(field)) {
 				this._handleError(`can't find ${field} on validate data`)
 			}
 			const _rule = this._isValidRule(rule)
-			_rule.forEach(({ validate, errorMessage = `invalid field ${field}`}) => {
+			for (let j = 0; j < _rule.length && (this.indicateEachError || result); j++) {
+				const { validate, errorMessage = `invalid field ${field}` } = _rule[j]
 				if (!this._isFunction(validate)) {
 					this._handleError(`validate must be function`)
 				}
 				if (!validate.call(null, fieldValue)) {
 					result = false
 					_handleErrorMessage.call(null, errorMessage)
-				}
-			})
-		})
+				}				
+			}
+		}
 		return result
 	}
 }

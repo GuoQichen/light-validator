@@ -28,6 +28,7 @@ describe(`Validator` , function () {
         }]
     }]
     const validate = new Validator(fakeValidateSchema)
+    const indicateEachErrorValidate = new Validator(fakeValidateSchema, true)
     describe(`#validate`, function () {
         it(`must contain schema field in data`, function () {
             assert.throws(() => {
@@ -100,6 +101,28 @@ describe(`Validator` , function () {
                 name: 'acky',
                 phone: 1
             }), false)
+        })
+
+        it(`abort if error occur`, function () {
+            let errorCount = 0
+            validate({
+                name: '',
+                phone: '',
+            }, () => {
+                errorCount++
+            })
+            assert.equal(errorCount, 1)
+        })
+
+        it(`indicate each error`, function () {
+            let errorCount = 0
+            indicateEachErrorValidate({
+                name: '',
+                phone: '',
+            }, () => {
+                errorCount++
+            })
+            assert.equal(errorCount, 4)
         })
     })
 })
