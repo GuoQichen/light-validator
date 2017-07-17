@@ -9,7 +9,7 @@ const validate = (data) => {
     if (!data[name]) {
         printError(`name can't be empty`)
     }
-    if (!/^\w{6, 20}$/.test(data[name])) {
+    if (!/^\w{6,20}$/.test(data[name])) {
         printError(`name should be 6 to 20 digits, uppercase and lowercase letters, underlined`)
     }
     if (!data[phone]) {
