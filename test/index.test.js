@@ -36,7 +36,7 @@ describe(`Validator` , function () {
         })
 
         it(`must call validate according order`, function () {
-            let resultMessage
+            let resultMessage = ''
             const validate = new Validator({
                 field: 'name',
                 rule: [{
@@ -52,7 +52,7 @@ describe(`Validator` , function () {
                 }]
             })
             validate({ name: 'ackyguo' })
-            assert(resultMessage, `onetwo`)
+            assert.equal(resultMessage, `onetwo`)
         })
 
         it(`get current errorMessage when error occur`, function () {
@@ -92,6 +92,14 @@ describe(`Validator` , function () {
                     throw new Error(`name cna't be empty`)
                 })
             }, /name cna't be empty/)
+        })
+
+        it(`return validate result`, function () {
+            assert(validate(fakeData))
+            assert.strictEqual(validate({
+                name: 'acky',
+                phone: 1
+            }), false)
         })
     })
 })

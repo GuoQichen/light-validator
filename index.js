@@ -51,6 +51,7 @@ class Validator {
     }
 
 	validate(data, handleErrorMessage) {
+        let result = true
         let _handleErrorMessage
         const defaultHandleErrorMessage = message => console.log(this._addPrintPrefix(message, `Log`))
         if (!handleErrorMessage || !this._isFunction(handleErrorMessage)) {
@@ -70,10 +71,12 @@ class Validator {
 					this._handleError(`validate must be function`)
 				}
 				if (!validate.call(null, fieldValue)) {
-					_handleErrorMessage.call(null, errorMessage)
+                    result = false
+                    _handleErrorMessage.call(null, errorMessage)
 				}
 			})
-		})
+        })
+        return result
 	}
 }
 
