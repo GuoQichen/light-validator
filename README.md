@@ -25,6 +25,11 @@ const validate = (data) => {
 
 it look verbose
 
+and form validator must conform
+
+- Form validation is orderly, from top to bottom
+- Custom error message
+
 ## usage
 ```js
 // Validator constructor accept objct or array for defined your validate rule
