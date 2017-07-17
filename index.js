@@ -5,8 +5,8 @@
 
 class Validator {
 	constructor(schema) {
-        this.schema = this._isValidSchema(schema)
-        return this.validate.bind(this)
+		this.schema = this._isValidSchema(schema)
+		return this.validate.bind(this)
 	}
 
 	_isValidAcceptType(target, message) {
@@ -32,36 +32,36 @@ class Validator {
 
 	_isFunction(value) {
 		return typeof value === 'function'
-    }
-    
-    _addPrintPrefix(message, level) {
-        return `[validator${level}]${message}`
-    }
+	}
+	
+	_addPrintPrefix(message, level) {
+		return `[validator${level}]${message}`
+	}
 
 	_handleError(errorMessage) {
-        const _errorMessage = this._addPrintPrefix(errorMessage, `Error`)
-        // console.error(errorMessage)
+		const _errorMessage = this._addPrintPrefix(errorMessage, `Error`)
+		// console.error(errorMessage)
 		throw new Error(_errorMessage)
-    }
-    
-    _hanldeWarn(warnMessage) {
-        const _warnMessage = this._addPrintPrefix(warnMessage, `Warn`)
-        const print = console.warn || console.log
-        print.call(console, _warnMessage)
-    }
+	}
+	
+	_hanldeWarn(warnMessage) {
+		const _warnMessage = this._addPrintPrefix(warnMessage, `Warn`)
+		const print = console.warn || console.log
+		print.call(console, _warnMessage)
+	}
 
 	validate(data, handleErrorMessage) {
-        let result = true
-        let _handleErrorMessage
-        const defaultHandleErrorMessage = message => console.log(this._addPrintPrefix(message, `Log`))
-        if (!handleErrorMessage || !this._isFunction(handleErrorMessage)) {
-            this._hanldeWarn(`validate must need a function as callback to handle error message`)
-            _handleErrorMessage = defaultHandleErrorMessage
-        } else {
-        	_handleErrorMessage = handleErrorMessage
-        }
+		let result = true
+		let _handleErrorMessage
+		const defaultHandleErrorMessage = message => console.log(this._addPrintPrefix(message, `Log`))
+		if (!handleErrorMessage || !this._isFunction(handleErrorMessage)) {
+			this._hanldeWarn(`validate must need a function as callback to handle error message`)
+			_handleErrorMessage = defaultHandleErrorMessage
+		} else {
+			_handleErrorMessage = handleErrorMessage
+		}
 		this.schema.forEach(({ field = Symbol('field'), rule }) => {
-            const fieldValue = data[field]
+			const fieldValue = data[field]
 			if (!data.hasOwnProperty(field)) {
 				this._handleError(`can't find ${field} on validate data`)
 			}
@@ -71,12 +71,12 @@ class Validator {
 					this._handleError(`validate must be function`)
 				}
 				if (!validate.call(null, fieldValue)) {
-                    result = false
-                    _handleErrorMessage.call(null, errorMessage)
+					result = false
+					_handleErrorMessage.call(null, errorMessage)
 				}
 			})
-        })
-        return result
+		})
+		return result
 	}
 }
 
