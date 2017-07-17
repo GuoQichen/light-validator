@@ -52,13 +52,16 @@ const validate = new Validator([{
 then 
 
 ```js
-const valideResult = validate({
+const valid = validate({
     name: 'ackyguo',
     phone: 12345678901,
 }, errorMessage => {
     // we need a callback for show errorMessage for user
     printError(errorMessage)
 })
+if (valid) {
+    // communication with server
+}
 ```
 
 ## test 
